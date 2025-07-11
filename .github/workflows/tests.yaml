@@ -38,11 +38,11 @@ jobs:
         uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          slug: flashnetxyz/sparkscan-rs
+          slug: flashnetxyz/dogdata-rs
       - name: Upload test results to Codecov
         if: ${{ !cancelled() }}
         uses: codecov/test-results-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
-          slug: flashnetxyz/sparkscan-rs
+          slug: flashnetxyz/dogdata-rs
           files: target/nextest/default/junit.xml
