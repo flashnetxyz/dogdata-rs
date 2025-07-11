@@ -9,6 +9,8 @@ use opentelemetry::global;
 pub use opentelemetry::trace::TraceId;
 use opentelemetry::trace::TracerProvider;
 use opentelemetry_datadog::{ApiVersion, DatadogPropagator};
+use opentelemetry_sdk::runtime;
+use opentelemetry_sdk::trace::span_processor_with_async_runtime;
 use opentelemetry_sdk::trace::{self, SdkTracerProvider};
 use opentelemetry_sdk::trace::{RandomIdGenerator, Sampler, TraceError, TraceResult, Tracer};
 use opentelemetry_semantic_conventions as semcov;
@@ -38,13 +40,23 @@ pub fn build_tracer_provider() -> TraceResult<SdkTracerProvider> {
     config.sampler = Box::new(Sampler::AlwaysOn);
     config.id_generator = Box::new(RandomIdGenerator::default());
 
-    let provider = opentelemetry_datadog::new_pipeline()
+    let pipeline = opentelemetry_datadog::new_pipeline()
         .with_http_client(dd_http_client)
         .with_service_name(service_name)
         .with_api_version(ApiVersion::Version05)
         .with_agent_endpoint(format!("http://{dd_host}:{dd_port}"))
-        .with_trace_config(config)
-        .install_batch()?;
+        .with_trace_config(config);
+    let exporter = pipeline.build_exporter()?;
+
+    let provider = SdkTracerProvider::builder()
+        .with_span_processor(
+            span_processor_with_async_runtime::BatchSpanProcessor::builder(
+                exporter,
+                runtime::Tokio,
+            )
+            .build(),
+        )
+        .build();
     global::set_tracer_provider(provider.clone());
 
     global::set_text_map_propagator(DatadogPropagator::default());
@@ -55,7 +67,7 @@ pub fn build_tracer_provider() -> TraceResult<SdkTracerProvider> {
 pub fn build_tracer() -> TraceResult<(Tracer, SdkTracerProvider)> {
     let provider = build_tracer_provider()?;
 
-    let scope = InstrumentationScope::builder("opentelemetry-datadog")
+    let scope = InstrumentationScope::builder(env!("CARGO_PKG_NAME"))
         .with_version(env!("CARGO_PKG_VERSION"))
         .with_schema_url(semcov::SCHEMA_URL)
         .with_attributes(None)

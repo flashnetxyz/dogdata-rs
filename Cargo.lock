@@ -244,12 +244,11 @@ dependencies = [
 
 [[package]]
 name = "dogdata"
-version = "0.0.2"
+version = "0.0.6"
 dependencies = [
  "chrono",
  "opentelemetry",
  "opentelemetry-datadog",
- "opentelemetry-http",
  "opentelemetry-semantic-conventions",
  "opentelemetry_sdk",
  "reqwest",

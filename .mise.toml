@@ -10,8 +10,8 @@ curlie = "latest"
 [tasks]
 start-apm-test-agent = { dir = "{{config_root}}/testing", run = 'docker compose -f docker-compose.yaml up -d' }
 stop-apm-test-agent = { dir = "{{config_root}}/testing", run = 'docker compose -f docker-compose.yaml down' }
-start-session = { dir = "{{config_root}}", run = 'curlie http://localhost:8126/test/session/start?test_session_token=ssss', depends = ["start-apm-test-agent"] }
-snapshot-session = { dir = "{{config_root}}", run = 'curlie http://localhost:8126/test/session/snapshot?test_session_token=ssss' }
+start-session = { dir = "{{config_root}}", run = 'curlie http://localhost:8126/test/session/start?test_session_token=dd' }
+snapshot-session = { dir = "{{config_root}}", run = 'curlie http://localhost:8126/test/session/snapshot?test_session_token=dd' }
 
 [hooks]
 enter = "mise i"
