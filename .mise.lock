@@ -1,0 +1,27 @@
+[tools.curlie]
+version = "1.8.2"
+backend = "aqua:rs/curlie"
+
+[tools.curlie.checksums]
+"curlie_1.8.2_darwin_arm64.tar.gz" = "sha256:6501b25208c0edad5b3e1dbfaaa4cc963cccd1245d4c7d36b30b61607d0ae260"
+
+[tools.docker-compose]
+version = "2.38.2"
+backend = "aqua:docker/compose"
+
+[tools.docker-compose.checksums]
+docker-compose-darwin-aarch64 = "sha256:d3af9d008da340f355df89d16361a6c19a363c33e7b7ab145a81b76aa2ed9b86"
+
+[tools.just]
+version = "1.41.0"
+backend = "ubi:casey/just"
+
+[tools.just.checksums]
+just-macos-aarch64 = "sha256:8e7a2979d1fe3ba22f25abffec956b4c3a17d66002294fca666827779833b024"
+
+[tools.tilt]
+version = "0.35.0"
+backend = "aqua:tilt-dev/tilt"
+
+[tools.tilt.checksums]
+"tilt.0.35.0.mac.arm64.tar.gz" = "sha256:8e1737f2ae71fd5c67750d8ea3fe41b09dcc1e11d929b305fa03b1366695009e"

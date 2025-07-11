@@ -1,0 +1,11 @@
+services:
+  ddapm:
+    image: ghcr.io/datadog/dd-apm-test-agent/ddapm-test-agent:latest
+    ports:
+      - 8126:8126
+    environment:
+      - SNAPSHOT_CI=0
+      - LOG_LEVEL=DEBUG
+      - SNAPSHOT_IGNORED_ATTRS=""
+    volumes:
+      - $PWD/tests/snapshots:/snapshots
