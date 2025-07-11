@@ -28,7 +28,7 @@
 //! ```no_run
 //! # use reqwest_middleware::Result;
 //! use reqwest_middleware::{ClientBuilder};
-//! use reqwest_tracing::TracingMiddleware;
+//! use reqwest_datadog_tracing::TracingMiddleware;
 //!
 //! # async fn example() -> Result<()> {
 //! let reqwest_client = reqwest::Client::builder().build().unwrap();
@@ -46,7 +46,7 @@
 //! ```no_run
 //! # use reqwest_middleware::Result;
 //! use reqwest_middleware::{ClientBuilder, Extension};
-//! use reqwest_tracing::{
+//! use reqwest_datadog_tracing::{
 //!     TracingMiddleware, OtelName
 //! };
 //! # async fn example() -> Result<()> {
@@ -78,7 +78,7 @@
 //! use http::Extensions;
 //! use reqwest::{Request, Response};
 //! use reqwest_middleware::ClientBuilder;
-//! use reqwest_tracing::{
+//! use reqwest_datadog_tracing::{
 //!     default_on_request_end, reqwest_otel_span, ReqwestOtelSpanBackend, TracingMiddleware
 //! };
 //! use tracing::Span;
@@ -105,28 +105,16 @@
 //! ```
 
 mod middleware;
-#[cfg(any(
-    feature = "opentelemetry_0_20",
-    feature = "opentelemetry_0_21",
-    feature = "opentelemetry_0_22",
-    feature = "opentelemetry_0_23",
-    feature = "opentelemetry_0_24",
-    feature = "opentelemetry_0_25",
-    feature = "opentelemetry_0_26",
-    feature = "opentelemetry_0_27",
-    feature = "opentelemetry_0_28",
-    feature = "opentelemetry_0_29",
-    feature = "opentelemetry_0_30",
-))]
+#[cfg(any(feature = "opentelemetry_0_30",))]
 mod otel;
 mod reqwest_otel_span_builder;
 pub use middleware::TracingMiddleware;
 pub use reqwest_otel_span_builder::{
-    default_on_request_end, default_on_request_failure, default_on_request_success,
-    default_span_name, DefaultSpanBackend, DisableOtelPropagation, OtelName, OtelPathNames,
-    ReqwestOtelSpanBackend, SpanBackendWithUrl, ERROR_CAUSE_CHAIN, ERROR_MESSAGE,
+    DefaultSpanBackend, DisableOtelPropagation, ERROR_CAUSE_CHAIN, ERROR_MESSAGE,
     HTTP_REQUEST_METHOD, HTTP_RESPONSE_STATUS_CODE, OTEL_KIND, OTEL_NAME, OTEL_STATUS_CODE,
-    SERVER_ADDRESS, SERVER_PORT, URL_FULL, URL_SCHEME, USER_AGENT_ORIGINAL,
+    OtelName, OtelPathNames, ReqwestOtelSpanBackend, SERVER_ADDRESS, SERVER_PORT,
+    SpanBackendWithUrl, URL_FULL, URL_SCHEME, USER_AGENT_ORIGINAL, default_on_request_end,
+    default_on_request_failure, default_on_request_success, default_span_name,
 };
 
 #[cfg(feature = "deprecated_attributes")]

@@ -26,7 +26,7 @@ use http::Extensions;
 use matchit::Router;
 use reqwest::{Request, Response, StatusCode as RequestStatusCode, Url};
 use reqwest_middleware::{Error, Result};
-use tracing::{warn, Span};
+use tracing::{Span, warn};
 
 use crate::reqwest_otel_span;
 
@@ -226,7 +226,7 @@ fn get_span_status(request_status: RequestStatusCode) -> Option<&'static str> {
 /// ```no_run
 /// # use reqwest_middleware::Result;
 /// use reqwest_middleware::{ClientBuilder, Extension};
-/// use reqwest_tracing::{
+/// use reqwest_datadog_tracing::{
 ///     TracingMiddleware, OtelName
 /// };
 /// # async fn example() -> Result<()> {
@@ -263,7 +263,7 @@ pub struct OtelName(pub Cow<'static, str>);
 /// ```
 /// /// # use reqwest_middleware::Result;
 /// use reqwest_middleware::{ClientBuilder, Extension};
-/// use reqwest_tracing::{
+/// use reqwest_datadog_tracing::{
 ///     TracingMiddleware, OtelPathNames
 /// };
 /// # async fn example() -> Result<(), Box<dyn std::error::Error>> {
@@ -297,7 +297,7 @@ impl OtelPathNames {
     /// - Named parameters like `:paymentId` match anything until the next `/` or the end of the path.
     /// - Catch-all parameters start with `*` and match everything after the `/`. They must be at the end of the route.
     /// ```
-    /// # use reqwest_tracing::OtelPathNames;
+    /// # use reqwest_datadog_tracing::OtelPathNames;
     /// OtelPathNames::known_paths([
     ///     "/",
     ///     "/payment",
@@ -324,7 +324,7 @@ impl OtelPathNames {
     /// Returns the templated path if a match is found.
     ///
     /// ```
-    /// # use reqwest_tracing::OtelPathNames;
+    /// # use reqwest_datadog_tracing::OtelPathNames;
     /// let path_names = OtelPathNames::known_paths(["/payment/{paymentId}"]).unwrap();
     /// let path = path_names.find("/payment/payment-id-123");
     /// assert_eq!(path, Some("/payment/{paymentId}"));
@@ -343,7 +343,7 @@ impl OtelPathNames {
 /// ```no_run
 /// # use reqwest_middleware::Result;
 /// use reqwest_middleware::{ClientBuilder, Extension};
-/// use reqwest_tracing::{
+/// use reqwest_datadog_tracing::{
 ///     TracingMiddleware, DisableOtelPropagation
 /// };
 /// # async fn example() -> Result<()> {

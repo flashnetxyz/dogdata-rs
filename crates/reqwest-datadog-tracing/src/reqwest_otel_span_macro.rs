@@ -55,7 +55,7 @@
 /// use reqwest_middleware::Result;
 /// use http::Extensions;
 /// use reqwest::{Request, Response};
-/// use reqwest_tracing::{
+/// use reqwest_datadog_tracing::{
 ///     default_on_request_end, reqwest_otel_span, ReqwestOtelSpanBackend
 /// };
 /// use tracing::Span;
@@ -82,7 +82,7 @@
 /// You can define new fields following the same syntax of [`tracing::info_span!`] for fields:
 ///
 /// ```rust,should_panic
-/// use reqwest_tracing::reqwest_otel_span;
+/// use reqwest_datadog_tracing::reqwest_otel_span;
 /// # let request: &reqwest::Request = todo!();
 ///
 /// // Define a `time_elapsed` field as empty. It might be populated later.
@@ -103,7 +103,7 @@
 /// You can also choose to customise the level of the generated span:
 ///
 /// ```rust,should_panic
-/// use reqwest_tracing::reqwest_otel_span;
+/// use reqwest_datadog_tracing::reqwest_otel_span;
 /// use tracing::Level;
 /// # let request: &reqwest::Request = todo!();
 ///
@@ -174,7 +174,7 @@ macro_rules! reqwest_otel_span {
 #[doc(hidden)]
 pub mod private {
     #[doc(hidden)]
-    pub use tracing::{span, Level};
+    pub use tracing::{Level, span};
 
     #[cfg(not(feature = "deprecated_attributes"))]
     #[doc(hidden)]

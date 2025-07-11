@@ -1,43 +1,24 @@
-// MIT License
-//
-// Copyright (c) 2023 willbank
-//
-// Permission is hereby granted, free of charge, to any person obtaining a copy
-// of this software and associated documentation files (the "Software"), to deal
-// in the Software without restriction, including without limitation the rights
-// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-// copies of the Software, and to permit persons to whom the Software is
-// furnished to do so, subject to the following conditions:
-//
-// The above copyright notice and this permission notice shall be included in all
-// copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-// SOFTWARE.
-
 //! Trace and layer builders to export traces to the Datadog agent.
 //!
 //! This module contains a function that builds a tracer with an exporter
 //! to send traces to the Datadog agent in batches over gRPC.
 //!
 //! It also contains a convenience function to build a layer with the tracer.
+use opentelemetry::InstrumentationScope;
 use opentelemetry::global;
-pub use opentelemetry::trace::{TraceError, TraceId, TraceResult};
+pub use opentelemetry::trace::TraceId;
+use opentelemetry::trace::TracerProvider;
 use opentelemetry_datadog::{ApiVersion, DatadogPropagator};
-use opentelemetry_sdk::trace;
-use opentelemetry_sdk::trace::{RandomIdGenerator, Sampler, Tracer};
+use opentelemetry_sdk::trace::{self, SdkTracerProvider};
+use opentelemetry_sdk::trace::{RandomIdGenerator, Sampler, TraceError, TraceResult, Tracer};
+use opentelemetry_semantic_conventions as semcov;
 use std::env;
 use std::time::Duration;
 use tracing::Subscriber;
 use tracing_opentelemetry::{OpenTelemetryLayer, PreSampledTracer};
 use tracing_subscriber::registry::LookupSpan;
 
-pub fn build_tracer() -> TraceResult<Tracer> {
+pub fn build_tracer_provider() -> TraceResult<SdkTracerProvider> {
     let service_name = env::var("DD_SERVICE")
         .map_err(|_| <&str as Into<TraceError>>::into("missing DD_SERVICE"))?;
 
@@ -53,21 +34,36 @@ pub fn build_tracer() -> TraceResult<Tracer> {
         .build()
         .expect("Could not init datadog http_client");
 
-    let tracer = opentelemetry_datadog::new_pipeline()
+    let mut config = trace::Config::default();
+    config.sampler = Box::new(Sampler::AlwaysOn);
+    config.id_generator = Box::new(RandomIdGenerator::default());
+
+    let provider = opentelemetry_datadog::new_pipeline()
         .with_http_client(dd_http_client)
         .with_service_name(service_name)
         .with_api_version(ApiVersion::Version05)
         .with_agent_endpoint(format!("http://{dd_host}:{dd_port}"))
-        .with_trace_config(
-            trace::Config::default()
-                .with_sampler(Sampler::AlwaysOn)
-                .with_id_generator(RandomIdGenerator::default()),
-        )
-        .install_batch(opentelemetry_sdk::runtime::Tokio);
+        .with_trace_config(config)
+        .install_batch()?;
+    global::set_tracer_provider(provider.clone());
 
     global::set_text_map_propagator(DatadogPropagator::default());
 
-    tracer
+    Ok(provider)
+}
+
+pub fn build_tracer() -> TraceResult<(Tracer, SdkTracerProvider)> {
+    let provider = build_tracer_provider()?;
+
+    let scope = InstrumentationScope::builder("opentelemetry-datadog")
+        .with_version(env!("CARGO_PKG_VERSION"))
+        .with_schema_url(semcov::SCHEMA_URL)
+        .with_attributes(None)
+        .build();
+
+    let tracer = provider.tracer_with_scope(scope);
+
+    Ok((tracer, provider))
 }
 
 pub fn build_layer<S>() -> TraceResult<OpenTelemetryLayer<S, Tracer>>
@@ -75,6 +71,6 @@ where
     Tracer: opentelemetry::trace::Tracer + PreSampledTracer + 'static,
     S: Subscriber + for<'span> LookupSpan<'span>,
 {
-    let tracer = build_tracer()?;
+    let (tracer, _) = build_tracer()?;
     Ok(tracing_opentelemetry::layer().with_tracer(tracer))
 }

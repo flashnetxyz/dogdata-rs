@@ -1,0 +1,101 @@
+[
+    [
+        {
+            "name": "opentelemetry-datadog",
+            "service": "ss",
+            "resource": "sparkscan-tpv",
+            "trace_id": 0,
+            "span_id": 1,
+            "parent_id": 0,
+            "type": "",
+            "error": 0,
+            "meta": {
+                "busy_ns": "18428543",
+                "code.filepath": "src/main.rs",
+                "code.lineno": "14",
+                "code.namespace": "ss",
+                "idle_ns": "593612999",
+                "name": "http.request",
+                "service": "ss",
+                "telemetry.sdk.language": "rust",
+                "telemetry.sdk.name": "opentelemetry",
+                "telemetry.sdk.version": "0.21.2",
+                "thread.id": "1",
+                "thread.name": "main"
+            },
+            "metrics": {
+                "_sampling_priority_v1": 1.0
+            },
+            "duration": 612049000,
+            "start": 1752259094240273000
+        },
+        {
+            "name": "opentelemetry-datadog",
+            "service": "ss",
+            "resource": "send",
+            "trace_id": 0,
+            "span_id": 2,
+            "parent_id": 1,
+            "type": "",
+            "error": 0,
+            "meta": {
+                "busy_ns": "18317957",
+                "code.filepath": "/Users/quantumly/Documents/Development/Datadog/reqwest-test/target/debug/build/sparkscan-900aeebaeff36a0e/out/codegen.rs",
+                "code.lineno": "10200",
+                "code.namespace": "sparkscan::builder",
+                "idle_ns": "593562335",
+                "service": "ss",
+                "telemetry.sdk.language": "rust",
+                "telemetry.sdk.name": "opentelemetry",
+                "telemetry.sdk.version": "0.21.2",
+                "thread.id": "1",
+                "thread.name": "main"
+            },
+            "metrics": {
+                "_sampling_priority_v1": 1.0
+            },
+            "duration": 611880000,
+            "start": 1752259094240372000
+        },
+        {
+            "name": "opentelemetry-datadog",
+            "service": "ss",
+            "resource": "GET",
+            "trace_id": 0,
+            "span_id": 3,
+            "parent_id": 2,
+            "type": "",
+            "error": 0,
+            "meta": {
+                "busy_ns": "17709540",
+                "code.filepath": "/Users/quantumly/.cargo/registry/src/index.crates.io-1949cf8c6b5b557f/reqwest-tracing-0.5.8/src/reqwest_otel_span_builder.rs",
+                "code.lineno": "152",
+                "code.namespace": "reqwest_tracing::reqwest_otel_span_builder",
+                "http.host": "api.sparkscan.io",
+                "http.method": "GET",
+                "http.request.method": "GET",
+                "http.response.status_code": "200",
+                "http.scheme": "https",
+                "http.status_code": "200",
+                "http.user_agent": "",
+                "idle_ns": "593582626",
+                "net.host.port": "443",
+                "server.address": "api.sparkscan.io",
+                "server.port": "443",
+                "service": "ss",
+                "telemetry.sdk.language": "rust",
+                "telemetry.sdk.name": "opentelemetry",
+                "telemetry.sdk.version": "0.21.2",
+                "thread.id": "1",
+                "thread.name": "main",
+                "url.scheme": "https",
+                "user_agent.original": ""
+            },
+            "metrics": {
+                "_sampling_priority_v1": 1.0
+            },
+            "duration": 611341000,
+            "start": 1752259094240562000
+        }
+    ]
+]
