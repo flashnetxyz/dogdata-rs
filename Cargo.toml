@@ -1,6 +1,7 @@
 [workspace]
 members = [
-	"crates/dogdata"
+	"crates/dogdata",
+    "crates/reqwest-datadog-tracing"
 ]
 
 resolver = "2"
