@@ -2,6 +2,7 @@
 name = "reqwest-datadog-tracing"
 version = "0.0.2"
 license = "Apache-2.0"
+description = "Tracing middleware for reqwest that uses the current Opentelemetry Context."
 edition = "2024"
 authors = ["Nejc Drobnic <nejc@flashnet.xyz>"]
 repository = "https://github.com/flashnetxyz/dogdata-rs.git"
