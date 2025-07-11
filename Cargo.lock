@@ -244,7 +244,7 @@ dependencies = [
 
 [[package]]
 name = "dogdata"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "chrono",
  "opentelemetry",
@@ -1313,7 +1313,7 @@ dependencies = [
 
 [[package]]
 name = "reqwest-datadog-tracing"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "anyhow",
  "async-trait",
