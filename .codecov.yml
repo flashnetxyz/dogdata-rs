@@ -1,0 +1,16 @@
+codecov:
+  branch: main
+
+comment:
+  layout: "condensed_header, diff, flags, components"
+
+component_management:
+  individual_components:
+    - component_id: dogdata-rs
+      name: DogData
+      paths:
+        - crates/dogdata
+    - component_id: reqwest-datadog-tracing
+      name: Reqwest Datadog Tracing
+      paths:
+        - crates/reqwest-datadog-tracing
