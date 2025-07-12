@@ -19,10 +19,6 @@ mysql = ["sqlx/mysql"]
 # Tracing
 tracing = { workspace = true }
 
-# Async
-async-trait = { workspace = true }
-futures = { workspace = true }
-
 sqlx = { version = "0.8.6", default-features = false }
 
 [dev-dependencies]

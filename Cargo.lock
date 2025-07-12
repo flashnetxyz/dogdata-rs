@@ -412,8 +412,6 @@ dependencies = [
 name = "dogdata-sqlx"
 version = "0.0.1"
 dependencies = [
- "async-trait",
- "futures",
  "sqlx",
  "tracing",
 ]
