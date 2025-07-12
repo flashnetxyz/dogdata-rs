@@ -7,7 +7,7 @@ description = "Tracing middleware for reqwest that uses the current Opentelemetr
 repository.workspace = true
 homepage.workspace = true
 license.workspace = true
-keywords = ["reqwest", "http", "middleware", "opentelemetry", "tracing", "datadog"]
+keywords = ["reqwest", "middleware", "tracing", "datadog"]
 categories = ["web-programming::http-client"]
 
 [features]
