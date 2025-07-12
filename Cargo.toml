@@ -3,7 +3,16 @@ edition = "2024"
 license = "Apache-2.0"
 homepage = "https://github.com/flashnetxyz/dogdata-rs"
 repository = "https://github.com/flashnetxyz/dogdata-rs.git"
-exclude = [".github/", "testing/", ".codecov.yml", ".mise.toml", ".mise.lock", ".release-plz.toml"]
+exclude = [
+    ".github/",
+    "testing/",
+    ".codecov.yml",
+    ".mise.toml",
+    ".mise.lock",
+    ".release-plz.toml",
+    ".editorconfig",
+    "Makefile",
+]
 
 [workspace]
 members = ["crates/dogdata", "crates/dogdata-reqwest-middleware"]
