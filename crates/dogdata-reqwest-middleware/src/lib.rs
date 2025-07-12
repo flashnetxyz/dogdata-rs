@@ -105,7 +105,6 @@
 //! ```
 
 mod middleware;
-#[cfg(any(feature = "opentelemetry_0_30",))]
 mod otel;
 mod reqwest_otel_span_builder;
 pub use middleware::TracingMiddleware;
