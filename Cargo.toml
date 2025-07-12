@@ -18,3 +18,34 @@ exclude = [
 members = ["crates/dogdata", "crates/dogdata-reqwest-middleware"]
 
 resolver = "2"
+
+
+[workspace.dependencies]
+# OpenTelemetry
+opentelemetry = { version = "^0.30.0" }
+opentelemetry_sdk = { version = "^0.30.0", features = [
+    "rt-tokio",
+    "experimental_trace_batch_span_processor_with_async_runtime",
+] }
+opentelemetry-semantic-conventions = { version = "^0.30.0" }
+
+# Tracing
+tracing = { version = "^0.1.40" }
+tracing-appender = { version = "0.2.3" }
+tracing-opentelemetry = { version = "^0.31.0" }
+tracing-serde = { version = "^0.2.0" }
+tracing-subscriber = { version = "^0.3.18", features = ["env-filter", "json"] }
+
+# HTTP
+http = { version = "1" }
+## Clients
+reqwest = { version = "0.12.22", default-features = false }
+reqwest-middleware = { version = ">0.3.0, <0.5.0" }
+
+# Async
+async-trait = { version = "0.1.51" }
+
+# Serialization
+## JSON
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1" }

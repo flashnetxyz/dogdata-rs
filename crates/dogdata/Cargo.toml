@@ -9,25 +9,33 @@ repository.workspace = true
 homepage.workspace = true
 license.workspace = true
 keywords = ["opentelemetry", "tracing", "datadog"]
+categories = ["development-tools::debugging"]
 
 [features]
 default = []
 
 [dependencies]
-chrono = "^0.4.33"
-opentelemetry = { version = "^0.30.0" }
-opentelemetry_sdk = { version = "^0.30.0", features = [
-    "rt-tokio",
-    "experimental_trace_batch_span_processor_with_async_runtime",
-] }
-opentelemetry-semantic-conventions = { version = "^0.30.0" }
+# OpenTelemetry
+opentelemetry = { workspace = true }
+opentelemetry_sdk = { workspace = true }
+opentelemetry-semantic-conventions = { workspace = true }
 opentelemetry-datadog = { version = "0.18.0", features = ["reqwest-client"] }
-reqwest = { version = "0.12.22", default-features = false }
-serde = { version = "1", features = ["derive"] }
-serde_json = "1"
-tokio = { version = "1", features = ["signal", "macros"], optional = true }
-tracing = "^0.1.40"
-tracing-appender = "0.2.3"
-tracing-opentelemetry = "^0.31.0"
-tracing-serde = "^0.2.0"
-tracing-subscriber = { version = "^0.3.18", features = ["env-filter", "json"] }
+
+# Tracing
+tracing = { workspace = true }
+tracing-appender = { workspace = true }
+tracing-opentelemetry = { workspace = true }
+tracing-serde = { workspace = true }
+tracing-subscriber = { workspace = true }
+
+# HTTP
+## Clients
+reqwest = { workspace = true }
+
+# Serialization
+## JSON
+serde = { workspace = true }
+serde_json = { workspace = true }
+
+# Misc
+chrono = "^0.4.33"
