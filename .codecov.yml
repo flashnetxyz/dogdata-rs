@@ -14,3 +14,7 @@ component_management:
       name: Reqwest Datadog Tracing
       paths:
         - crates/dogdata-reqwest-middleware
+    - component_id: dogdata-sqlx
+      name: SQLx Datadog Tracing
+      paths:
+        - crates/dogdata-sqlx

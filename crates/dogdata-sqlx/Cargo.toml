@@ -12,14 +12,18 @@ categories = ["development-tools::debugging", "development-tools::profiling"]
 
 [features]
 default = []
-
-[lib]
-proc-macro = true
+postgres = ["sqlx/postgres"]
+mysql = ["sqlx/mysql"]
 
 [dependencies]
-quote = { version = "1" }
-syn = { version = "2", features = ["full"] }
+# Tracing
+tracing = { workspace = true }
+
+# Async
+async-trait = { workspace = true }
+futures = { workspace = true }
+
+sqlx = { version = "0.8.6", default-features = false }
 
 [dev-dependencies]
 sqlx = { version = "0.8.6", features = ["postgres"] }
-tracing = { version = "0.1.41" }

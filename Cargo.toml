@@ -46,6 +46,7 @@ reqwest-middleware = { version = ">0.3.0, <0.5.0" }
 
 # Async
 async-trait = { version = "0.1.51" }
+futures = { version = "0.3.31" }
 
 # Serialization
 ## JSON
