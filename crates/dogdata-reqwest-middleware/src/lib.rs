@@ -20,8 +20,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#![doc=include_str!("../README.md")]
-
 //! Opentracing middleware implementation for [`reqwest_middleware`].
 //!
 //! Attach [`TracingMiddleware`] to your client to automatically trace HTTP requests.

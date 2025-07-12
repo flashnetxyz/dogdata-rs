@@ -20,8 +20,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#![doc=include_str!("../../../README.md")]
-
 use crate::formatter::DatadogFormatter;
 use crate::model::{default_name_mapping, default_resource_mapping, default_service_name_mapping};
 use crate::shutdown::TracerShutdown;
