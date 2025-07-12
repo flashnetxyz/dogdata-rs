@@ -32,6 +32,7 @@ opentelemetry-semantic-conventions = { workspace = true }
 
 # Datadog
 datadog-opentelemetry = { workspace = true }
+dd-trace = { workspace = true }
 
 # Tracing
 tracing = { workspace = true }

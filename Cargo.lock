@@ -505,7 +505,7 @@ dependencies = [
 [[package]]
 name = "datadog-opentelemetry"
 version = "0.0.1"
-source = "git+https://github.com/DataDog/dd-trace-rs.git?branch=main#98a38e902f3b72aed3a0c6968b37820a8d6196b8"
+source = "git+https://github.com/DataDog/dd-trace-rs#98a38e902f3b72aed3a0c6968b37820a8d6196b8"
 dependencies = [
  "data-pipeline",
  "datadog-opentelemetry-mappings",
@@ -524,7 +524,7 @@ dependencies = [
 [[package]]
 name = "datadog-opentelemetry-mappings"
 version = "0.0.1"
-source = "git+https://github.com/DataDog/dd-trace-rs.git?branch=main#98a38e902f3b72aed3a0c6968b37820a8d6196b8"
+source = "git+https://github.com/DataDog/dd-trace-rs#98a38e902f3b72aed3a0c6968b37820a8d6196b8"
 dependencies = [
  "datadog-trace-utils",
  "dd-trace",
@@ -581,7 +581,7 @@ dependencies = [
 [[package]]
 name = "dd-trace"
 version = "0.0.1"
-source = "git+https://github.com/DataDog/dd-trace-rs.git?branch=main#98a38e902f3b72aed3a0c6968b37820a8d6196b8"
+source = "git+https://github.com/DataDog/dd-trace-rs#98a38e902f3b72aed3a0c6968b37820a8d6196b8"
 dependencies = [
  "anyhow",
  "serde",
@@ -592,7 +592,7 @@ dependencies = [
 [[package]]
 name = "dd-trace-propagation"
 version = "0.0.1"
-source = "git+https://github.com/DataDog/dd-trace-rs.git?branch=main#98a38e902f3b72aed3a0c6968b37820a8d6196b8"
+source = "git+https://github.com/DataDog/dd-trace-rs#98a38e902f3b72aed3a0c6968b37820a8d6196b8"
 dependencies = [
  "dd-trace",
  "lazy_static",
@@ -604,7 +604,7 @@ dependencies = [
 [[package]]
 name = "dd-trace-sampling"
 version = "0.0.1"
-source = "git+https://github.com/DataDog/dd-trace-rs.git?branch=main#98a38e902f3b72aed3a0c6968b37820a8d6196b8"
+source = "git+https://github.com/DataDog/dd-trace-rs#98a38e902f3b72aed3a0c6968b37820a8d6196b8"
 dependencies = [
  "datadog-opentelemetry-mappings",
  "dd-trace",
@@ -1558,7 +1558,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "07033963ba89ebaf1584d767badaa2e8fcec21aedea6b8c0346d487d49c28667"
 dependencies = [
  "cfg-if",
- "windows-targets 0.48.5",
+ "windows-targets 0.52.6",
 ]
 
 [[package]]
@@ -1871,6 +1871,20 @@ dependencies = [
 
 [[package]]
 name = "opentelemetry"
+version = "0.27.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ab70038c28ed37b97d8ed414b6429d343a8bbf44c9f79ec854f3a643029ba6d7"
+dependencies = [
+ "futures-core",
+ "futures-sink",
+ "js-sys",
+ "pin-project-lite",
+ "thiserror 1.0.69",
+ "tracing",
+]
+
+[[package]]
+name = "opentelemetry"
 version = "0.28.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "236e667b670a5cdf90c258f5a55794ec5ac5027e960c224bff8367a59e1e6426"
@@ -1958,6 +1972,23 @@ name = "opentelemetry-semantic-conventions"
 version = "0.29.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "84b29a9f89f1a954936d5aa92f19b2feec3c8f3971d3e96206640db7f9706ae3"
+
+[[package]]
+name = "opentelemetry_sdk"
+version = "0.27.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "231e9d6ceef9b0b2546ddf52335785ce41252bc7474ee8ba05bfad277be13ab8"
+dependencies = [
+ "async-trait",
+ "futures-channel",
+ "futures-executor",
+ "futures-util",
+ "glob",
+ "opentelemetry 0.27.1",
+ "percent-encoding",
+ "rand 0.8.5",
+ "thiserror 1.0.69",
+]
 
 [[package]]
 name = "opentelemetry_sdk"
@@ -2528,7 +2559,7 @@ dependencies = [
  "errno",
  "libc",
  "linux-raw-sys 0.4.15",
- "windows-sys 0.52.0",
+ "windows-sys 0.59.0",
 ]
 
 [[package]]
@@ -3420,32 +3451,14 @@ dependencies = [
 
 [[package]]
 name = "tracing-opentelemetry"
-version = "0.29.0"
+version = "0.28.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "721f2d2569dce9f3dfbbddee5906941e953bfcdf736a62da3377f5751650cc36"
+checksum = "97a971f6058498b5c0f1affa23e7ea202057a7301dbff68e968b2d578bcbd053"
 dependencies = [
  "js-sys",
  "once_cell",
- "opentelemetry 0.28.0",
- "opentelemetry_sdk 0.28.0",
- "smallvec",
- "tracing",
- "tracing-core",
- "tracing-log",
- "tracing-subscriber",
- "web-time",
-]
-
-[[package]]
-name = "tracing-opentelemetry"
-version = "0.30.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fd8e764bd6f5813fd8bebc3117875190c5b0415be8f7f8059bffb6ecd979c444"
-dependencies = [
- "js-sys",
- "once_cell",
- "opentelemetry 0.29.1",
- "opentelemetry_sdk 0.29.0",
+ "opentelemetry 0.27.1",
+ "opentelemetry_sdk 0.27.1",
  "smallvec",
  "tracing",
  "tracing-core",
