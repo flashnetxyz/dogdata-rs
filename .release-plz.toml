@@ -8,12 +8,14 @@ git_tag_enable = true
 
 [[package]]
 name = "dogdata"
-path = "crates/dogdata"
 changelog_path = "crates/dogdata/CHANGELOG.md"
 git_tag_name = "dogdata_v{{version}}"
 
 [[package]]
 name = "dogdata-reqwest-middleware"
-path = "crates/dogdata-reqwest-middleware"
 changelog_path = "crates/dogdata/CHANGELOG.md"
 git_tag_name = "dogdata-reqwest-middleware_v{{version}}"
+
+[changelog]
+protect_breaking_commits = true
+sort_commits = "newest"
