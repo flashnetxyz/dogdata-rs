@@ -25,4 +25,4 @@ sqlx = { version = "0.8.6", default-features = false }
 dogdata = { path = "../dogdata" }
 dogdata-sqlx = { path = ".", features = ["postgres"] }
 
-sqlx = { version = "0.8.6", features = ["runtime-tokio", "migrate"] }
+sqlx = { version = "0.8.6", features = ["runtime-tokio", "migrate", "postgres"] }
