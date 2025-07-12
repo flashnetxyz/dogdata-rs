@@ -2,9 +2,26 @@
 
 # dogdata-rs
 
+
+# Configuration
+
+The lib is configurable via environment variables as following:
+
+| env var                | default value                                | description                                               |
+|------------------------|----------------------------------------------|-----------------------------------------------------------|
+| DD_ENABLED             | false                                        | Enables the datadog exporter and trace_id/span_id on logs |
+| DD_SERVICE             | <required>                                   | Datadog service name                                      |
+| DD_AGENT_HOST          | localhost                                    | Datadog agent host                                        |
+| DD_AGENT_PORT          | 8126                                         | Datadog agent port                                        |
+| RUST_LOG               | info                                         |                                                           |
+| OTEL_LOG_LEVEL         | debug                                        |                                                           |
+
+
+# Further Context and Rationale
+
 ## Inspiration
 
-This crate is a fork of [@will-bank/datadog-tracing](https://github.com/will-bank/datadog-tracing) with updated dependencies and adjusted span base names for greater compatibility.
+This crate is a fork of [datadog-tracing](https://github.com/will-bank/datadog-tracing) with updated dependencies and adjusted span base names for greater compatibility.
 
 The original datadog-tracing lib was highly inspired on [ddtrace](https://github.com/Validus-Risk-Management/ddtrace) crate,
 which is also a glue between tracing + opentelemetry + datadog.
