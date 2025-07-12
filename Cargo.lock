@@ -244,7 +244,7 @@ dependencies = [
 
 [[package]]
 name = "dogdata"
-version = "0.0.6"
+version = "0.1.0"
 dependencies = [
  "chrono",
  "opentelemetry",
@@ -260,6 +260,26 @@ dependencies = [
  "tracing-opentelemetry",
  "tracing-serde",
  "tracing-subscriber",
+]
+
+[[package]]
+name = "dogdata-reqwest-middleware"
+version = "0.0.1"
+dependencies = [
+ "anyhow",
+ "async-trait",
+ "getrandom 0.2.16",
+ "http",
+ "matchit",
+ "opentelemetry",
+ "opentelemetry_sdk",
+ "reqwest",
+ "reqwest-middleware",
+ "tokio",
+ "tracing",
+ "tracing-opentelemetry",
+ "tracing-subscriber",
+ "wiremock",
 ]
 
 [[package]]
@@ -1308,26 +1328,6 @@ dependencies = [
  "wasm-bindgen-futures",
  "web-sys",
  "webpki-roots",
-]
-
-[[package]]
-name = "reqwest-datadog-tracing"
-version = "0.0.2"
-dependencies = [
- "anyhow",
- "async-trait",
- "getrandom 0.2.16",
- "http",
- "matchit",
- "opentelemetry",
- "opentelemetry_sdk",
- "reqwest",
- "reqwest-middleware",
- "tokio",
- "tracing",
- "tracing-opentelemetry",
- "tracing-subscriber",
- "wiremock",
 ]
 
 [[package]]

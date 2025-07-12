@@ -10,7 +10,7 @@ component_management:
       name: DogData
       paths:
         - crates/dogdata
-    - component_id: reqwest-datadog-tracing
+    - component_id: dogdata-reqwest-middleware
       name: Reqwest Datadog Tracing
       paths:
-        - crates/reqwest-datadog-tracing
+        - crates/dogdata-reqwest-middleware

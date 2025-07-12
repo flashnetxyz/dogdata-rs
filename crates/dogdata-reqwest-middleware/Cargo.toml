@@ -1,6 +1,6 @@
 [package]
-name = "reqwest-datadog-tracing"
-version = "0.0.2"
+name = "dogdata-reqwest-middleware"
+version = "0.0.1"
 license = "Apache-2.0"
 description = "Tracing middleware for reqwest that uses the current Opentelemetry Context."
 edition = "2024"

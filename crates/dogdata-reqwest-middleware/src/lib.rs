@@ -20,6 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#![doc=include_str!("../README.md")]
+
 //! Opentracing middleware implementation for [`reqwest_middleware`].
 //!
 //! Attach [`TracingMiddleware`] to your client to automatically trace HTTP requests.
@@ -28,7 +30,7 @@
 //! ```no_run
 //! # use reqwest_middleware::Result;
 //! use reqwest_middleware::{ClientBuilder};
-//! use reqwest_datadog_tracing::TracingMiddleware;
+//! use dogdata_reqwest_middleware::TracingMiddleware;
 //!
 //! # async fn example() -> Result<()> {
 //! let reqwest_client = reqwest::Client::builder().build().unwrap();
@@ -46,7 +48,7 @@
 //! ```no_run
 //! # use reqwest_middleware::Result;
 //! use reqwest_middleware::{ClientBuilder, Extension};
-//! use reqwest_datadog_tracing::{
+//! use dogdata_reqwest_middleware::{
 //!     TracingMiddleware, OtelName
 //! };
 //! # async fn example() -> Result<()> {
@@ -78,7 +80,7 @@
 //! use http::Extensions;
 //! use reqwest::{Request, Response};
 //! use reqwest_middleware::ClientBuilder;
-//! use reqwest_datadog_tracing::{
+//! use dogdata_reqwest_middleware::{
 //!     default_on_request_end, reqwest_otel_span, ReqwestOtelSpanBackend, TracingMiddleware
 //! };
 //! use tracing::Span;

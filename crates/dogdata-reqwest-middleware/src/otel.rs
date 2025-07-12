@@ -86,7 +86,7 @@ mod test {
         TELEMETRY.get_or_init(|| {
             let subscriber = Registry::default().with(
                 filter::Targets::new()
-                    .with_target("reqwest_datadog_tracing::otel::test", Level::DEBUG),
+                    .with_target("dogdata_reqwest_middleware::otel::test", Level::DEBUG),
             );
 
             #[cfg(feature = "opentelemetry_0_30")]
