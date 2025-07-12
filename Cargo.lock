@@ -412,6 +412,7 @@ dependencies = [
 name = "dogdata-sqlx"
 version = "0.0.1"
 dependencies = [
+ "dogdata",
  "sqlx",
  "tracing",
 ]
@@ -2122,6 +2123,8 @@ dependencies = [
  "sha2",
  "smallvec",
  "thiserror 2.0.12",
+ "tokio",
+ "tokio-stream",
  "tracing",
  "url",
 ]
@@ -2160,6 +2163,7 @@ dependencies = [
  "sqlx-postgres",
  "sqlx-sqlite",
  "syn",
+ "tokio",
  "url",
 ]
 
