@@ -23,12 +23,7 @@ use tracing::Subscriber;
 use tracing_opentelemetry::{OpenTelemetryLayer, PreSampledTracer};
 use tracing_subscriber::registry::LookupSpan;
 
-use crate::init::ModelMappings;
-use crate::model::default_name_mapping;
-use crate::model::default_resource_mapping;
-use crate::model::default_service_name_mapping;
-
-pub fn build_tracer_provider(mappings: Option<ModelMappings>) -> TraceResult<SdkTracerProvider> {
+pub fn build_tracer_provider() -> TraceResult<SdkTracerProvider> {
     let service_name = env::var("DD_SERVICE")
         .map_err(|_| <&str as Into<TraceError>>::into("missing DD_SERVICE"))?;
 
@@ -55,25 +50,6 @@ pub fn build_tracer_provider(mappings: Option<ModelMappings>) -> TraceResult<Sdk
         .with_agent_endpoint(format!("http://{dd_host}:{dd_port}"))
         .with_trace_config(config);
 
-    if let Some(mappings) = mappings {
-        pipeline = pipeline
-            .with_name_mapping(
-                mappings
-                    .name_mapping
-                    .unwrap_or_else(|| Box::new(default_name_mapping)),
-            )
-            .with_service_name_mapping(
-                mappings
-                    .service_name_mapping
-                    .unwrap_or_else(|| Box::new(default_service_name_mapping)),
-            )
-            .with_resource_mapping(
-                mappings
-                    .resource_mapping
-                    .unwrap_or_else(|| Box::new(default_resource_mapping)),
-            );
-    }
-
     let exporter = pipeline.build_exporter()?;
 
     let provider = SdkTracerProvider::builder()
@@ -92,8 +68,8 @@ pub fn build_tracer_provider(mappings: Option<ModelMappings>) -> TraceResult<Sdk
     Ok(provider)
 }
 
-pub fn build_tracer(mappings: Option<ModelMappings>) -> TraceResult<(Tracer, SdkTracerProvider)> {
-    let provider = build_tracer_provider(mappings)?;
+pub fn build_tracer() -> TraceResult<(Tracer, SdkTracerProvider)> {
+    let provider = build_tracer_provider()?;
 
     let scope = InstrumentationScope::builder(env!("CARGO_PKG_NAME"))
         .with_version(env!("CARGO_PKG_VERSION"))
@@ -111,6 +87,6 @@ where
     Tracer: opentelemetry::trace::Tracer + PreSampledTracer + 'static,
     S: Subscriber + for<'span> LookupSpan<'span>,
 {
-    let (tracer, _) = build_tracer(None)?;
+    let (tracer, _) = build_tracer()?;
     Ok(tracing_opentelemetry::layer().with_tracer(tracer))
 }

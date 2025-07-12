@@ -21,11 +21,9 @@
 // SOFTWARE.
 
 use crate::formatter::DatadogFormatter;
-use crate::model::{default_name_mapping, default_resource_mapping, default_service_name_mapping};
 use crate::shutdown::TracerShutdown;
 use crate::tracer::build_tracer;
-use opentelemetry::trace::TraceError;
-use opentelemetry_datadog::FieldMappingFn;
+use opentelemetry_sdk::trace::TraceError;
 use std::env;
 use tracing::Subscriber;
 use tracing_appender::non_blocking::{NonBlocking, WorkerGuard};
@@ -66,13 +64,13 @@ where
     }
 }
 
-pub fn init(mappings: Option<ModelMappings>) -> Result<(WorkerGuard, TracerShutdown), TraceError> {
+pub fn init() -> Result<(WorkerGuard, TracerShutdown), TraceError> {
     let (non_blocking, guard) = tracing_appender::non_blocking(std::io::stdout());
 
     let dd_enabled = env::var("DD_ENABLED").map(|s| s == "true").unwrap_or(false);
 
     let (telemetry_layer, provider) = if dd_enabled {
-        let (tracer, provider) = build_tracer(mappings)?;
+        let (tracer, provider) = build_tracer()?;
         (
             Some(tracing_opentelemetry::layer().with_tracer(tracer)),
             Some(provider),
@@ -88,20 +86,4 @@ pub fn init(mappings: Option<ModelMappings>) -> Result<(WorkerGuard, TracerShutd
         .init();
 
     Ok((guard, TracerShutdown::new(provider)))
-}
-
-pub struct ModelMappings {
-    pub service_name_mapping: Option<Box<FieldMappingFn>>,
-    pub name_mapping: Option<Box<FieldMappingFn>>,
-    pub resource_mapping: Option<Box<FieldMappingFn>>,
-}
-
-impl Default for ModelMappings {
-    fn default() -> Self {
-        Self {
-            service_name_mapping: Some(Box::new(default_service_name_mapping)),
-            name_mapping: Some(Box::new(default_name_mapping)),
-            resource_mapping: Some(Box::new(default_resource_mapping)),
-        }
-    }
 }
