@@ -1,6 +1,6 @@
 [package]
 name = "dogdata-reqwest-middleware"
-version = "0.0.2"
+version = "0.0.3"
 authors = ["Nejc Drobnic <nejc@flashnet.xyz>"]
 edition.workspace = true
 description = "Tracing middleware for reqwest that uses the current Opentelemetry Context."
