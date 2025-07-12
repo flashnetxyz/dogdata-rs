@@ -1,13 +1,13 @@
 [package]
 name = "dogdata-reqwest-middleware"
-version = "0.0.1"
-license = "Apache-2.0"
-description = "Tracing middleware for reqwest that uses the current Opentelemetry Context."
-edition = "2024"
+version = "0.0.2"
 authors = ["Nejc Drobnic <nejc@flashnet.xyz>"]
-repository = "https://github.com/flashnetxyz/dogdata-rs.git"
-homepage = "https://github.com/flashnetxyz/dogdata-rs"
-keywords = ["reqwest", "http", "middleware", "opentelemetry", "tracing"]
+edition.workspace = true
+description = "Tracing middleware for reqwest that uses the current Opentelemetry Context."
+repository.workspace = true
+homepage.workspace = true
+license.workspace = true
+keywords = ["reqwest", "http", "middleware", "opentelemetry", "tracing", "datadog"]
 categories = ["web-programming::http-client"]
 
 [features]

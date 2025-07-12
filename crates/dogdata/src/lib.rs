@@ -25,6 +25,7 @@
 
 pub mod formatter;
 pub mod init;
+pub mod model;
 pub mod shutdown;
 pub mod tracer;
 

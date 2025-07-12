@@ -4,6 +4,7 @@
 //! to send traces to the Datadog agent in batches over gRPC.
 //!
 //! It also contains a convenience function to build a layer with the tracer.
+
 use opentelemetry::InstrumentationScope;
 use opentelemetry::global;
 pub use opentelemetry::trace::TraceId;
@@ -20,7 +21,12 @@ use tracing::Subscriber;
 use tracing_opentelemetry::{OpenTelemetryLayer, PreSampledTracer};
 use tracing_subscriber::registry::LookupSpan;
 
-pub fn build_tracer_provider() -> TraceResult<SdkTracerProvider> {
+use crate::init::ModelMappings;
+use crate::model::default_name_mapping;
+use crate::model::default_resource_mapping;
+use crate::model::default_service_name_mapping;
+
+pub fn build_tracer_provider(mappings: Option<ModelMappings>) -> TraceResult<SdkTracerProvider> {
     let service_name = env::var("DD_SERVICE")
         .map_err(|_| <&str as Into<TraceError>>::into("missing DD_SERVICE"))?;
 
@@ -40,12 +46,32 @@ pub fn build_tracer_provider() -> TraceResult<SdkTracerProvider> {
     config.sampler = Box::new(Sampler::AlwaysOn);
     config.id_generator = Box::new(RandomIdGenerator::default());
 
-    let pipeline = opentelemetry_datadog::new_pipeline()
+    let mut pipeline = opentelemetry_datadog::new_pipeline()
         .with_http_client(dd_http_client)
         .with_service_name(service_name)
         .with_api_version(ApiVersion::Version05)
         .with_agent_endpoint(format!("http://{dd_host}:{dd_port}"))
         .with_trace_config(config);
+
+    if let Some(mappings) = mappings {
+        pipeline = pipeline
+            .with_name_mapping(
+                mappings
+                    .name_mapping
+                    .unwrap_or_else(|| Box::new(default_name_mapping)),
+            )
+            .with_service_name_mapping(
+                mappings
+                    .service_name_mapping
+                    .unwrap_or_else(|| Box::new(default_service_name_mapping)),
+            )
+            .with_resource_mapping(
+                mappings
+                    .resource_mapping
+                    .unwrap_or_else(|| Box::new(default_resource_mapping)),
+            );
+    }
+
     let exporter = pipeline.build_exporter()?;
 
     let provider = SdkTracerProvider::builder()
@@ -64,8 +90,8 @@ pub fn build_tracer_provider() -> TraceResult<SdkTracerProvider> {
     Ok(provider)
 }
 
-pub fn build_tracer() -> TraceResult<(Tracer, SdkTracerProvider)> {
-    let provider = build_tracer_provider()?;
+pub fn build_tracer(mappings: Option<ModelMappings>) -> TraceResult<(Tracer, SdkTracerProvider)> {
+    let provider = build_tracer_provider(mappings)?;
 
     let scope = InstrumentationScope::builder(env!("CARGO_PKG_NAME"))
         .with_version(env!("CARGO_PKG_VERSION"))
@@ -83,6 +109,6 @@ where
     Tracer: opentelemetry::trace::Tracer + PreSampledTracer + 'static,
     S: Subscriber + for<'span> LookupSpan<'span>,
 {
-    let (tracer, _) = build_tracer()?;
+    let (tracer, _) = build_tracer(None)?;
     Ok(tracing_opentelemetry::layer().with_tracer(tracer))
 }

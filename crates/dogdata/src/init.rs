@@ -20,9 +20,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#![doc=include_str!("../../../README.md")]
+
 use crate::formatter::DatadogFormatter;
+use crate::model::{default_name_mapping, default_resource_mapping, default_service_name_mapping};
 use crate::shutdown::TracerShutdown;
 use crate::tracer::build_tracer;
+use opentelemetry_datadog::FieldMappingFn;
 use opentelemetry_sdk::trace::TraceError;
 use std::env;
 use tracing::Subscriber;
@@ -32,26 +36,14 @@ use tracing_subscriber::registry::LookupSpan;
 use tracing_subscriber::util::SubscriberInitExt;
 use tracing_subscriber::{EnvFilter, Layer, Registry};
 
-fn loglevel_filter_layer(dd_enabled: bool) -> EnvFilter {
+fn loglevel_filter_layer(_dd_enabled: bool) -> EnvFilter {
     let log_level = env::var("RUST_LOG").unwrap_or_else(|_| "info".to_string());
-
-    // `axum_tracing_opentelemetry` should be a level info to emit opentelemetry trace & span
-    let axum_tracing_log_level = env::var("AXUM_TRACING_LOG_LEVEL").unwrap_or_else(|_| {
-        if dd_enabled {
-            "trace".to_string()
-        } else {
-            "off".to_string()
-        }
-    });
 
     // `otel::setup` set to debug to log detected resources, configuration read and infered
     let otel_log_level = env::var("OTEL_LOG_LEVEL").unwrap_or_else(|_| "debug".to_string());
 
     unsafe {
-        env::set_var(
-            "RUST_LOG",
-            format!("{log_level},otel::tracing={axum_tracing_log_level},otel={otel_log_level}"),
-        );
+        env::set_var("RUST_LOG", format!("{log_level},otel={otel_log_level}"));
     }
 
     EnvFilter::from_default_env()
@@ -76,13 +68,13 @@ where
     }
 }
 
-pub fn init() -> Result<(WorkerGuard, TracerShutdown), TraceError> {
+pub fn init(mappings: Option<ModelMappings>) -> Result<(WorkerGuard, TracerShutdown), TraceError> {
     let (non_blocking, guard) = tracing_appender::non_blocking(std::io::stdout());
 
     let dd_enabled = env::var("DD_ENABLED").map(|s| s == "true").unwrap_or(false);
 
     let (telemetry_layer, provider) = if dd_enabled {
-        let (tracer, provider) = build_tracer()?;
+        let (tracer, provider) = build_tracer(mappings)?;
         (
             Some(tracing_opentelemetry::layer().with_tracer(tracer)),
             Some(provider),
@@ -98,4 +90,20 @@ pub fn init() -> Result<(WorkerGuard, TracerShutdown), TraceError> {
         .init();
 
     Ok((guard, TracerShutdown::new(provider)))
+}
+
+pub struct ModelMappings {
+    pub service_name_mapping: Option<Box<FieldMappingFn>>,
+    pub name_mapping: Option<Box<FieldMappingFn>>,
+    pub resource_mapping: Option<Box<FieldMappingFn>>,
+}
+
+impl Default for ModelMappings {
+    fn default() -> Self {
+        Self {
+            service_name_mapping: Some(Box::new(default_service_name_mapping)),
+            name_mapping: Some(Box::new(default_name_mapping)),
+            resource_mapping: Some(Box::new(default_resource_mapping)),
+        }
+    }
 }
