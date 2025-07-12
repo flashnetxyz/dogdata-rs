@@ -60,6 +60,6 @@ serde_json = { version = "1" }
 # Tracing
 tracing = { version = "^0.1.40" }
 tracing-appender = { version = "0.2.3" }
-tracing-opentelemetry = { version = "0.28.0" }
+tracing-opentelemetry = { version = "0.29.0" }
 tracing-serde = { version = "^0.2.0" }
 tracing-subscriber = { version = "^0.3.18", features = ["env-filter", "json"] }

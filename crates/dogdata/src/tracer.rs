@@ -11,7 +11,6 @@ use opentelemetry::trace::TraceError;
 pub use opentelemetry::trace::TraceId;
 use opentelemetry::trace::TraceResult;
 use opentelemetry::trace::TracerProvider;
-use opentelemetry_datadog::{ApiVersion, DatadogPropagator};
 use opentelemetry_sdk::runtime;
 use opentelemetry_sdk::trace::span_processor_with_async_runtime;
 use opentelemetry_sdk::trace::{self, SdkTracerProvider};
@@ -23,53 +22,19 @@ use tracing::Subscriber;
 use tracing_opentelemetry::{OpenTelemetryLayer, PreSampledTracer};
 use tracing_subscriber::registry::LookupSpan;
 
-pub fn build_tracer_provider() -> TraceResult<SdkTracerProvider> {
-    let service_name = env::var("DD_SERVICE")
-        .map_err(|_| <&str as Into<TraceError>>::into("missing DD_SERVICE"))?;
+pub fn build_tracer_provider() -> SdkTracerProvider {
+    let config = dd_trace::Config::builder().build();
 
-    let dd_host = env::var("DD_AGENT_HOST").unwrap_or("localhost".to_string());
-    let dd_port = env::var("DD_AGENT_PORT")
-        .ok()
-        .and_then(|it| it.parse::<i32>().ok())
-        .unwrap_or(8126);
+    let tracer_provider = datadog_opentelemetry::init_datadog(
+        config,
+        SdkTracerProvider::builder(),
+    );
 
-    // disabling connection reuse with dd-agent to avoid "connection closed from server" errors
-    let dd_http_client = reqwest::ClientBuilder::new()
-        .pool_idle_timeout(Duration::from_millis(1))
-        .build()
-        .expect("Could not init datadog http_client");
-
-    let mut config = trace::Config::default();
-    config.sampler = Box::new(Sampler::AlwaysOn);
-    config.id_generator = Box::new(RandomIdGenerator::default());
-
-    let mut pipeline = opentelemetry_datadog::new_pipeline()
-        .with_http_client(dd_http_client)
-        .with_service_name(service_name)
-        .with_api_version(ApiVersion::Version05)
-        .with_agent_endpoint(format!("http://{dd_host}:{dd_port}"))
-        .with_trace_config(config);
-
-    let exporter = pipeline.build_exporter()?;
-
-    let provider = SdkTracerProvider::builder()
-        .with_span_processor(
-            span_processor_with_async_runtime::BatchSpanProcessor::builder(
-                exporter,
-                runtime::Tokio,
-            )
-            .build(),
-        )
-        .build();
-    global::set_tracer_provider(provider.clone());
-
-    global::set_text_map_propagator(DatadogPropagator::default());
-
-    Ok(provider)
+    tracer_provider
 }
 
-pub fn build_tracer() -> TraceResult<(Tracer, SdkTracerProvider)> {
-    let provider = build_tracer_provider()?;
+pub fn build_tracer() -> (Tracer, SdkTracerProvider) {
+    let provider = build_tracer_provider();
 
     let scope = InstrumentationScope::builder(env!("CARGO_PKG_NAME"))
         .with_version(env!("CARGO_PKG_VERSION"))
@@ -79,14 +44,14 @@ pub fn build_tracer() -> TraceResult<(Tracer, SdkTracerProvider)> {
 
     let tracer = provider.tracer_with_scope(scope);
 
-    Ok((tracer, provider))
+    (tracer, provider)
 }
 
-pub fn build_layer<S>() -> TraceResult<OpenTelemetryLayer<S, Tracer>>
+pub fn build_layer<S>() -> OpenTelemetryLayer<S, Tracer>
 where
     Tracer: opentelemetry::trace::Tracer + PreSampledTracer + 'static,
     S: Subscriber + for<'span> LookupSpan<'span>,
 {
-    let (tracer, _) = build_tracer()?;
-    Ok(tracing_opentelemetry::layer().with_tracer(tracer))
+    let (tracer, _) = build_tracer();
+    tracing_opentelemetry::layer().with_tracer(tracer)
 }
