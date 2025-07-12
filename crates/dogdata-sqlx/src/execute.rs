@@ -253,3 +253,22 @@ where
         self.fetch_all(pool.as_executor()).instrument(span).await
     }
 }
+
+impl<'q, DB, A> InstrumentedExecute<'q, DB> for sqlx::query::Query<'q, DB, A>
+where
+    DB: Database,
+    A: 'q + Send + sqlx::IntoArguments<'q, DB>,
+{
+    async fn execute_instrumented<P>(
+        self,
+        pool: &P,
+        sql: impl AsRef<str> + Send,
+    ) -> Result<DB::QueryResult, sqlx::Error>
+    where
+        P: InstrumentedPool<Database = DB> + Send + Sync,
+        for<'c> &'c P: Executor<'c, Database = DB>,
+    {
+        let span = query_span_with_metadata(sql.as_ref(), pool);
+        self.execute(pool.as_executor()).instrument(span).await
+    }
+}
