@@ -1,4 +1,6 @@
 [tools]
+committed = "latest"
+pre-commit = "latest"
 just = "latest"
 tilt = "latest"
 
@@ -14,7 +16,7 @@ start-session = { dir = "{{config_root}}", run = 'curlie http://localhost:8126/t
 snapshot-session = { dir = "{{config_root}}", run = 'curlie http://localhost:8126/test/session/snapshot?test_session_token=doggo' }
 
 [hooks]
-enter = "mise i"
+enter = "mise i && pre-commit install"
 
 [settings]
 experimental = true

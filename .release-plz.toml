@@ -1,4 +1,5 @@
 [workspace]
+allow_dirty = true
 publish = true
 semver_check = true
 dependencies_update = false
