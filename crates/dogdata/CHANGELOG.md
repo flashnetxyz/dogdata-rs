@@ -7,18 +7,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-## [0.0.3](https://github.com/flashnetxyz/dogdata-rs/compare/dogdata-reqwest-middleware_v0.0.2...dogdata-reqwest-middleware_v0.0.3) - 2025-07-12
-
-### Added
-
-- clippy
-- bring dogdata-reqwest-middleware span closer to ddtrace fetch spans
-
-### Other
-
-- move dependencies to workspace
-- pre-commit tooling
-
 ## [0.2.0](https://github.com/flashnetxyz/dogdata-rs/compare/dogdata_v0.1.2...dogdata_v0.2.0) - 2025-07-12
 
 ### Added
