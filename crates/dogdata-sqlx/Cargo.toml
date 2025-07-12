@@ -1,0 +1,25 @@
+[package]
+name = "dogdata-sqlx"
+version = "0.0.1"
+authors = ["Nejc Drobnic <nejc@flashnet.xyz>"]
+edition.workspace = true
+description = "SQLx instrumentation for tracing to Datadog APM via OpenTelemetry"
+repository.workspace = true
+homepage.workspace = true
+license.workspace = true
+keywords = ["database", "sqlx", "tracing", "opentelemetry"]
+categories = ["development-tools::debugging", "development-tools::profiling"]
+
+[features]
+default = []
+
+[lib]
+proc-macro = true
+
+[dependencies]
+quote = { version = "1" }
+syn = { version = "2", features = ["full"] }
+
+[dev-dependencies]
+sqlx = { version = "0.8.6", features = ["postgres"] }
+tracing = { version = "0.1.41" }

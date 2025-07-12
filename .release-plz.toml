@@ -19,6 +19,11 @@ changelog_path = "crates/dogdata-reqwest-middleware/CHANGELOG.md"
 git_tag_name = "dogdata-reqwest-middleware_v{{version}}"
 
 [[package]]
+name = "dogdata-sqlx"
+changelog_path = "crates/dogdata-sqlx/CHANGELOG.md"
+git_tag_name = "dogdata-sqlx_v{{version}}"
+
+[[package]]
 name = "dogdata-examples"
 changelog_path = "examples/CHANGELOG.md"
 publish = false

@@ -17,7 +17,7 @@ exclude = [
 ]
 
 [workspace]
-members = ["crates/dogdata", "crates/dogdata-reqwest-middleware", "examples"]
+members = ["crates/dogdata", "crates/dogdata-reqwest-middleware", "crates/dogdata-sqlx", "examples"]
 
 resolver = "2"
 
