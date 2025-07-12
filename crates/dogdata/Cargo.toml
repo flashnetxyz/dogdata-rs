@@ -29,7 +29,9 @@ axum = [
 opentelemetry = { workspace = true }
 opentelemetry_sdk = { workspace = true }
 opentelemetry-semantic-conventions = { workspace = true }
-opentelemetry-datadog = { version = "0.16.0", features = ["reqwest-client"] }
+
+# Datadog
+datadog-opentelemetry = { workspace = true }
 
 # Tracing
 tracing = { workspace = true }
