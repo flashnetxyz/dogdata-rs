@@ -4,7 +4,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         std::env::set_var("RUST_LOG", "trace");
     }
 
-    let (_guard, shutdown) = dogdata::init(None)?;
+    let (_guard, shutdown) = dogdata::init()?;
 
     tracing::trace!("This is a trace message");
     tracing::debug!("This is a debug message");

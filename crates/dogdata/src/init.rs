@@ -23,8 +23,8 @@
 use crate::formatter::DatadogFormatter;
 use crate::shutdown::TracerShutdown;
 use crate::tracer::build_tracer;
-use std::env;
 use opentelemetry::trace::TraceError;
+use std::env;
 use tracing::Subscriber;
 use tracing_appender::non_blocking::{NonBlocking, WorkerGuard};
 use tracing_subscriber::layer::SubscriberExt;

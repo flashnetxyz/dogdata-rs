@@ -6,18 +6,13 @@
 //! It also contains a convenience function to build a layer with the tracer.
 
 use opentelemetry::InstrumentationScope;
-use opentelemetry::global;
-use opentelemetry::trace::TraceError;
 pub use opentelemetry::trace::TraceId;
 use opentelemetry::trace::TraceResult;
 use opentelemetry::trace::TracerProvider;
-use opentelemetry_sdk::runtime;
-use opentelemetry_sdk::trace::span_processor_with_async_runtime;
-use opentelemetry_sdk::trace::{self, SdkTracerProvider};
-use opentelemetry_sdk::trace::{RandomIdGenerator, Sampler, Tracer};
+use opentelemetry_sdk::trace::SdkTracerProvider;
+use opentelemetry_sdk::trace::Tracer;
 use opentelemetry_semantic_conventions as semcov;
 use std::env;
-use std::time::Duration;
 use tracing::Subscriber;
 use tracing_opentelemetry::{OpenTelemetryLayer, PreSampledTracer};
 use tracing_subscriber::registry::LookupSpan;
@@ -25,12 +20,7 @@ use tracing_subscriber::registry::LookupSpan;
 pub fn build_tracer_provider() -> SdkTracerProvider {
     let config = dd_trace::Config::builder().build();
 
-    let tracer_provider = datadog_opentelemetry::init_datadog(
-        config,
-        SdkTracerProvider::builder(),
-    );
-
-    tracer_provider
+    datadog_opentelemetry::init_datadog(config, SdkTracerProvider::builder())
 }
 
 pub fn build_tracer() -> (Tracer, SdkTracerProvider) {
