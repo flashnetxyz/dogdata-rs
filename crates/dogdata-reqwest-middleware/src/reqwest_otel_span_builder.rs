@@ -93,7 +93,7 @@ pub fn default_on_request_success(span: &Span, response: &Response) {
 #[inline]
 pub fn default_on_request_failure(span: &Span, e: &Error) {
     let error_message = e.to_string();
-    let error_cause_chain = format!("{:?}", e);
+    let error_cause_chain = format!("{e:?}");
     span.record(OTEL_STATUS_CODE, "ERROR");
     span.record(ERROR_MESSAGE, error_message.as_str());
     span.record(ERROR_CAUSE_CHAIN, error_cause_chain.as_str());
