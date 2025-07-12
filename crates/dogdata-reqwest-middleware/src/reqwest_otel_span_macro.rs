@@ -22,20 +22,7 @@
 
 #[macro_export]
 /// [`reqwest_otel_span!`](crate::reqwest_otel_span) creates a new [`tracing::Span`].
-/// It empowers you to add custom properties to the span on top of the default properties provided by the macro
-///
-/// Default Fields:
-/// - http.request.method
-/// - url.scheme
-/// - server.address
-/// - server.port
-/// - otel.kind
-/// - otel.name
-/// - otel.status_code
-/// - user_agent.original
-/// - http.response.status_code
-/// - error.message
-/// - error.cause_chain
+/// It empowers you to add custom properties to the span on top of the default properties provided by the macro.
 ///
 /// Here are some convenient functions to checkout [`default_on_request_success`], [`default_on_request_failure`],
 /// and [`default_on_request_end`].
@@ -142,29 +129,29 @@ macro_rules! reqwest_otel_span {
         {
             let method = $request.method();
             let url = $request.url();
-            let scheme = url.scheme();
+            let _scheme = url.scheme();
             let host = url.host_str().unwrap_or("");
-            let host_port = url.port_or_known_default().unwrap_or(0) as i64;
-            let otel_name = $name.to_string();
+            let _host_port = url.port_or_known_default().unwrap_or(0) as i64;
+            let _otel_name = $name.to_string();
             let header_default = &::http::HeaderValue::from_static("");
-            let user_agent = format!("{:?}", $request.headers().get("user-agent").unwrap_or(header_default)).replace('"', "");
+            let _user_agent = format!("{:?}", $request.headers().get("user-agent").unwrap_or(header_default)).replace('"', "");
 
             // The match here is necessary, because tracing expects the level to be static.
             match $level {
                 $crate::reqwest_otel_span_macro::private::Level::TRACE => {
-                    $crate::request_span!($crate::reqwest_otel_span_macro::private::Level::TRACE, method, scheme, host, host_port, user_agent, otel_name, $($field)*)
+                    $crate::request_span!($crate::reqwest_otel_span_macro::private::Level::TRACE, method, _scheme, host, _host_port, _user_agent, _otel_name, $($field)*)
                 },
                 $crate::reqwest_otel_span_macro::private::Level::DEBUG => {
-                    $crate::request_span!($crate::reqwest_otel_span_macro::private::Level::DEBUG, method, scheme, host, host_port, user_agent, otel_name, $($field)*)
+                    $crate::request_span!($crate::reqwest_otel_span_macro::private::Level::DEBUG, method, _scheme, host, _host_port, _user_agent, _otel_name, $($field)*)
                 },
                 $crate::reqwest_otel_span_macro::private::Level::INFO => {
-                    $crate::request_span!($crate::reqwest_otel_span_macro::private::Level::INFO, method, scheme, host, host_port, user_agent, otel_name, $($field)*)
+                    $crate::request_span!($crate::reqwest_otel_span_macro::private::Level::INFO, method, _scheme, host, _host_port, _user_agent, _otel_name, $($field)*)
                 },
                 $crate::reqwest_otel_span_macro::private::Level::WARN => {
-                    $crate::request_span!($crate::reqwest_otel_span_macro::private::Level::WARN, method, scheme, host, host_port, user_agent, otel_name, $($field)*)
+                    $crate::request_span!($crate::reqwest_otel_span_macro::private::Level::WARN, method, _scheme, host, _host_port, _user_agent, _otel_name, $($field)*)
                 },
                 $crate::reqwest_otel_span_macro::private::Level::ERROR => {
-                    $crate::request_span!($crate::reqwest_otel_span_macro::private::Level::ERROR, method, scheme, host, host_port, user_agent, otel_name, $($field)*)
+                    $crate::request_span!($crate::reqwest_otel_span_macro::private::Level::ERROR, method, _scheme, host, _host_port, _user_agent, _otel_name, $($field)*)
                 },
             }
         }
@@ -176,7 +163,6 @@ pub mod private {
     #[doc(hidden)]
     pub use tracing::{Level, span};
 
-    #[cfg(not(feature = "deprecated_attributes"))]
     #[doc(hidden)]
     #[macro_export]
     macro_rules! request_span {
@@ -184,49 +170,15 @@ pub mod private {
             $crate::reqwest_otel_span_macro::private::span!(
                 $level,
                 "HTTP request",
-                http.request.method = %$method,
-                url.scheme = %$scheme,
-                server.address = %$host,
-                server.port = %$host_port,
-                user_agent.original = %$user_agent,
-                otel.kind = "client",
-                otel.name = %$otel_name,
-                otel.status_code = tracing::field::Empty,
-                http.response.status_code = tracing::field::Empty,
-                error.message = tracing::field::Empty,
-                error.cause_chain = tracing::field::Empty,
-                $($field)*
-            )
-        }
-    }
-
-    // With the deprecated attributes flag enabled, we publish both the old and new attributes.
-    #[cfg(feature = "deprecated_attributes")]
-    #[doc(hidden)]
-    #[macro_export]
-    macro_rules! request_span {
-        ($level:expr, $method:expr, $scheme:expr, $host:expr, $host_port:expr, $user_agent:expr, $otel_name:expr, $($field:tt)*) => {
-            $crate::reqwest_otel_span_macro::private::span!(
-                $level,
-                "HTTP request",
-                http.request.method = %$method,
-                url.scheme = %$scheme,
-                server.address = %$host,
-                server.port = %$host_port,
-                user_agent.original = %$user_agent,
-                otel.kind = "client",
-                otel.name = %$otel_name,
-                otel.status_code = tracing::field::Empty,
-                http.response.status_code = tracing::field::Empty,
-                error.message = tracing::field::Empty,
-                error.cause_chain = tracing::field::Empty,
-                // old attributes
+                type = "http",
+                otel.type = "http",
+                component = "reqwest",
                 http.method = %$method,
-                http.scheme = %$scheme,
-                http.host = %$host,
-                net.host.port = %$host_port,
-                http.user_agent = tracing::field::Empty,
                 http.status_code = tracing::field::Empty,
+                http.url = tracing::field::Empty,
+                out.host = %$host,
+                otel.kind = "client",
+                span.kind = "client",
                 $($field)*
             )
         }

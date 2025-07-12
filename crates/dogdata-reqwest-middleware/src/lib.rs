@@ -117,10 +117,5 @@ pub use reqwest_otel_span_builder::{
     default_on_request_failure, default_on_request_success, default_span_name,
 };
 
-#[cfg(feature = "deprecated_attributes")]
-pub use reqwest_otel_span_builder::{
-    HTTP_HOST, HTTP_METHOD, HTTP_SCHEME, HTTP_STATUS_CODE, HTTP_URL, HTTP_USER_AGENT, NET_HOST_PORT,
-};
-
 #[doc(hidden)]
 pub mod reqwest_otel_span_macro;
