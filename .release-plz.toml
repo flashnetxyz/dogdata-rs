@@ -18,6 +18,12 @@ name = "dogdata-reqwest-middleware"
 changelog_path = "crates/dogdata-reqwest-middleware/CHANGELOG.md"
 git_tag_name = "dogdata-reqwest-middleware_v{{version}}"
 
+[[package]]
+name = "dogdata-examples"
+changelog_path = "examples/CHANGELOG.md"
+publish = false
+release = false
+
 [changelog]
 protect_breaking_commits = true
 sort_commits = "newest"

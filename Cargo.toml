@@ -11,11 +11,13 @@ exclude = [
     ".mise.lock",
     ".release-plz.toml",
     ".editorconfig",
+    ".pre-commit-config.yaml",
+    "committed.toml",
     "Makefile",
 ]
 
 [workspace]
-members = ["crates/dogdata", "crates/dogdata-reqwest-middleware"]
+members = ["crates/dogdata", "crates/dogdata-reqwest-middleware", "examples"]
 
 resolver = "2"
 
