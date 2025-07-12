@@ -11,7 +11,7 @@ keywords = ["database", "sqlx", "tracing", "opentelemetry"]
 categories = ["development-tools::debugging", "development-tools::profiling"]
 
 [features]
-default = ["postgres"]
+default = []
 postgres = ["sqlx/postgres"]
 mysql = ["sqlx/mysql"]
 
@@ -23,5 +23,6 @@ sqlx = { version = "0.8.6", default-features = false }
 
 [dev-dependencies]
 dogdata = { path = "../dogdata" }
+dogdata-sqlx = { path = ".", features = ["postgres"] }
 
-sqlx = { version = "0.8.6", features = ["runtime-tokio", "migrate", "postgres"] }
+sqlx = { version = "0.8.6", features = ["runtime-tokio", "migrate"] }

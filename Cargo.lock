@@ -413,6 +413,7 @@ name = "dogdata-sqlx"
 version = "0.0.1"
 dependencies = [
  "dogdata",
+ "dogdata-sqlx",
  "sqlx",
  "tracing",
 ]
