@@ -23,7 +23,6 @@
 use crate::formatter::DatadogFormatter;
 use crate::shutdown::TracerShutdown;
 use crate::tracer::build_tracer;
-use opentelemetry::trace::TraceError;
 use std::env;
 use tracing::Subscriber;
 use tracing_appender::non_blocking::{NonBlocking, WorkerGuard};
@@ -64,7 +63,7 @@ where
     }
 }
 
-pub fn init() -> Result<(WorkerGuard, TracerShutdown), TraceError> {
+pub fn init() -> (WorkerGuard, TracerShutdown) {
     let (non_blocking, guard) = tracing_appender::non_blocking(std::io::stdout());
 
     let dd_enabled = env::var("DD_ENABLED").map(|s| s == "true").unwrap_or(false);
@@ -85,5 +84,5 @@ pub fn init() -> Result<(WorkerGuard, TracerShutdown), TraceError> {
         .with(telemetry_layer)
         .init();
 
-    Ok((guard, TracerShutdown::new(provider)))
+    (guard, TracerShutdown::new(provider))
 }

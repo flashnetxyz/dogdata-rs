@@ -1,10 +1,9 @@
-#[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
+fn main() {
     unsafe {
         std::env::set_var("RUST_LOG", "trace");
     }
 
-    let (_guard, shutdown) = dogdata::init()?;
+    let (_guard, shutdown) = dogdata::init();
 
     tracing::trace!("This is a trace message");
     tracing::debug!("This is a debug message");
@@ -12,7 +11,5 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     tracing::warn!("This is a warn message");
     tracing::error!("This is an error message");
 
-    shutdown.shutdown();
-
-    Ok(())
+    shutdown.shutdown().expect("Failed to shutdown tracer");
 }

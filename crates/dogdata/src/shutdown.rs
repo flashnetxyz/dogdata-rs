@@ -1,4 +1,4 @@
-use opentelemetry_sdk::trace::SdkTracerProvider;
+use opentelemetry_sdk::{error::OTelSdkError, trace::SdkTracerProvider};
 
 pub struct TracerShutdown {
     provider: Option<SdkTracerProvider>,
@@ -9,9 +9,11 @@ impl TracerShutdown {
         Self { provider }
     }
 
-    pub fn shutdown(&self) {
+    pub fn shutdown(&self) -> Result<(), OTelSdkError> {
         if let Some(provider) = &self.provider {
-            let _ = provider.shutdown();
+            provider.shutdown().map_err(OTelSdkError::from)
+        } else {
+            Ok(())
         }
     }
 }
