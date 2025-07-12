@@ -358,7 +358,7 @@ dependencies = [
 
 [[package]]
 name = "dogdata"
-version = "0.2.0"
+version = "0.2.1"
 dependencies = [
  "chrono",
  "opentelemetry",
@@ -390,7 +390,7 @@ dependencies = [
 
 [[package]]
 name = "dogdata-reqwest-middleware"
-version = "0.0.3"
+version = "0.0.4"
 dependencies = [
  "anyhow",
  "async-trait",
@@ -410,7 +410,7 @@ dependencies = [
 
 [[package]]
 name = "dogdata-sqlx"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "dogdata",
  "dogdata-sqlx",
