@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.4](https://github.com/flashnetxyz/dogdata-rs/compare/dogdata-reqwest-middleware_v0.0.3...dogdata-reqwest-middleware_v0.0.4) - 2025-07-12
+
+### Other
+
+- correct changelog path
+
 ## [0.0.3](https://github.com/flashnetxyz/dogdata-rs/compare/dogdata-reqwest-middleware_v0.0.2...dogdata-reqwest-middleware_v0.0.3) - 2025-07-12
 
 ### Added
