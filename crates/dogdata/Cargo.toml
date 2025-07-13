@@ -14,13 +14,13 @@ categories = ["development-tools::debugging"]
 [features]
 default = []
 axum = [
-    "dep:axum", 
-    "dep:http", 
-    "dep:tower", 
-    "dep:pin-project-lite", 
-    "dep:tokio", 
-    "dep:futures-util", 
-    "dep:tracing-opentelemetry-instrumentation-sdk", 
+    "dep:axum",
+    "dep:http",
+    "dep:tower",
+    "dep:pin-project-lite",
+    "dep:tokio",
+    "dep:futures-util",
+    "dep:tracing-opentelemetry-instrumentation-sdk",
     "dep:axum-tracing-opentelemetry"
 ]
 
@@ -29,13 +29,13 @@ axum = [
 opentelemetry = { workspace = true }
 opentelemetry_sdk = { workspace = true }
 opentelemetry-semantic-conventions = { workspace = true }
-opentelemetry-datadog = { version = "0.18.0", features = ["reqwest-client"] }
+opentelemetry-datadog = { version = "0.16.0", features = ["reqwest-client"] }
 
 # Tracing
 tracing = { workspace = true }
 tracing-appender = { workspace = true }
 tracing-opentelemetry = { workspace = true }
-tracing-opentelemetry-instrumentation-sdk = { version = "0.29", optional = true }
+tracing-opentelemetry-instrumentation-sdk = { version = "^0.26.0", optional = true, features = ["http"] }
 tracing-serde = { workspace = true }
 tracing-subscriber = { workspace = true }
 
@@ -44,7 +44,7 @@ tracing-subscriber = { workspace = true }
 reqwest = { workspace = true }
 ## Server
 axum = { version = "0.8", optional = true }
-axum-tracing-opentelemetry = { version = "0.29", optional = true }
+axum-tracing-opentelemetry = { version = "^0.28.0", optional = true }
 http = { workspace = true, optional = true }
 tower = { version = "0.5", optional = true }
 

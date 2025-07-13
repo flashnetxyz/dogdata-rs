@@ -5,6 +5,8 @@
 //!
 //! It also contains a convenience function to build a layer with the tracer.
 
+use opentelemetry::trace::TraceError;
+use opentelemetry::trace::TraceResult;
 use opentelemetry::InstrumentationScope;
 use opentelemetry::global;
 pub use opentelemetry::trace::TraceId;
@@ -13,7 +15,7 @@ use opentelemetry_datadog::{ApiVersion, DatadogPropagator};
 use opentelemetry_sdk::runtime;
 use opentelemetry_sdk::trace::span_processor_with_async_runtime;
 use opentelemetry_sdk::trace::{self, SdkTracerProvider};
-use opentelemetry_sdk::trace::{RandomIdGenerator, Sampler, TraceError, TraceResult, Tracer};
+use opentelemetry_sdk::trace::{RandomIdGenerator, Sampler, Tracer};
 use opentelemetry_semantic_conventions as semcov;
 use std::env;
 use std::time::Duration;
