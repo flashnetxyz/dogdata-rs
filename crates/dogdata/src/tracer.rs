@@ -1,7 +1,7 @@
 //! Trace and layer builders to export traces to the Datadog agent.
 //!
 //! This module contains a function that builds a tracer with an exporter
-//! to send traces to the Datadog agent in batches over gRPC.
+//! to send traces to the Datadog agent in batches over HTTP.
 //!
 //! It also contains a convenience function to build a layer with the tracer.
 
