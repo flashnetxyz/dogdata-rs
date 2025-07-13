@@ -8,14 +8,23 @@ edition = "2024"
 default = []
 
 [dev-dependencies]
-dogdata = { path = "../crates/dogdata" }
+# Web framework
+axum = "^0.8.0"
+tower-http = { version = "0.5.1", features = ["timeout"] }
+
+# Dogdata crates
+dogdata = { path = "../crates/dogdata", features = ["axum"] }
 dogdata-reqwest-middleware = { path = "../crates/dogdata-reqwest-middleware" }
 
+# HTTP client
+reqwest = { version = "0.12.22", features = ["json"] }
+reqwest-middleware = { version = "0.4.2" }
+
+# Async runtime
 tokio = { version = "1.46.1", features = ["full"] }
 
-tracing = { version = "0.1.41" }
-
-reqwest = { version = "0.12.22", features = ["json"]}
-reqwest-middleware = { version = "0.4.2"}
-
+# Serialization
 serde = { version = "1", features = ["derive"] }
+
+# Tracing
+tracing = { version = "0.1.41" }
