@@ -20,16 +20,22 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-//! Utilities to integrate Rust services with Datadog using [`opentelemetry`],
-//! [`tracing`], and other open source libraries.
+//! Axum utilities.
+//!
+//! Re-exposes the middleware layer OtelInResponseLayer provided by the [`axum-tracing-opentelemetry`] project
+//! (https://github.com/davidB/tracing-opentelemetry-instrumentation-sdk).
+//!
+//! Also, exposes OtelAxumLayer from the same project, but hacked to support datadog.
+//!
+//! Additionally, a shutdown helper function named `shutdown_signal` is also exposed
 
-pub mod formatter;
-pub mod init;
-pub mod model;
-pub mod shutdown;
-pub mod tracer;
+mod shutdown;
+pub use shutdown::*;
 
-#[cfg(feature = "axum")]
-pub mod axum;
+// Exposes OtelAxumLayer and opentelemetry_tracing_layer
+mod middleware;
+pub use middleware::*;
 
-pub use init::init;
+pub use axum_tracing_opentelemetry::middleware::OtelInResponseLayer;
+
+mod http_server;
