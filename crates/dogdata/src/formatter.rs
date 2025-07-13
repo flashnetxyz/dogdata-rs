@@ -153,8 +153,11 @@ impl io::Write for WriteAdaptor<'_> {
 
 #[cfg(test)]
 mod tests {
-    use super::DatadogId;
+    use super::{DatadogId, lookup_trace_info};
     use opentelemetry::trace::{SpanId, TraceId};
+    use tracing_subscriber::layer::SubscriberExt as _;
+    use tracing_subscriber::registry::LookupSpan;
+    use tracing_subscriber::registry::Registry;
 
     #[test]
     fn test_trace_id_converted_to_datadog_id() {
@@ -178,5 +181,50 @@ mod tests {
         let datadog_id: DatadogId = span_id.into();
 
         assert_eq!(datadog_id.0, 6359193864645272721);
+    }
+
+    #[test]
+    fn test_lookup_trace_info_with_otel_data() {
+        let subscriber = Registry::default().with(tracing_opentelemetry::layer());
+
+        tracing::subscriber::with_default(subscriber, || {
+            let span = tracing::info_span!("test_span");
+            let _guard = span.enter();
+
+            let current = tracing::Span::current();
+            let id = current.id().expect("span should have id");
+
+            tracing::dispatcher::get_default(|dispatch| {
+                if let Some(registry) = dispatch.downcast_ref::<Registry>() {
+                    if let Some(span_ref) = registry.span(&id) {
+                        let result = lookup_trace_info(&span_ref);
+
+                        assert!(result.is_some());
+                    }
+                }
+            });
+        });
+    }
+
+    #[test]
+    fn test_lookup_trace_info_without_otel_data() {
+        let subscriber = Registry::default();
+
+        tracing::subscriber::with_default(subscriber, || {
+            let span = tracing::info_span!("test_span");
+            let _guard = span.enter();
+
+            let current = tracing::Span::current();
+            let id = current.id().expect("span should have id");
+
+            tracing::dispatcher::get_default(|dispatch| {
+                if let Some(registry) = dispatch.downcast_ref::<Registry>() {
+                    if let Some(span_ref) = registry.span(&id) {
+                        let result = lookup_trace_info(&span_ref);
+                        assert!(result.is_none());
+                    }
+                }
+            });
+        });
     }
 }

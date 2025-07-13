@@ -67,7 +67,6 @@ where
         let request_span = ReqwestOtelSpan::on_request_start(&req, extensions);
 
         let outcome_future = async {
-            #[cfg(any(feature = "opentelemetry_0_30",))]
             let req = if extensions.get::<crate::DisableOtelPropagation>().is_none() {
                 // Adds tracing headers to the given request to propagate the OpenTelemetry context to downstream revivers of the request.
                 // Spans added by downstream consumers will be part of the same trace.

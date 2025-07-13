@@ -2,7 +2,7 @@ use dogdata_reqwest_middleware::{SpanBackendWithUrl, TracingMiddleware};
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let (_guard, shutdown) = dogdata::init(None)?;
+    let (_guard, shutdown) = dogdata::init();
 
     let client = reqwest_middleware::ClientBuilder::new(reqwest::Client::new())
         .with(TracingMiddleware::<SpanBackendWithUrl>::new())
@@ -15,7 +15,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     tracing::info!("Response: {:?}", response);
 
-    shutdown.shutdown();
+    shutdown.shutdown().expect("Failed to shutdown tracer");
 
     Ok(())
 }
