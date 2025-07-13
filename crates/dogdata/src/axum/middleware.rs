@@ -129,7 +129,7 @@ where
     fn call(&mut self, req: Request<B>) -> Self::Future {
         use tracing_opentelemetry::OpenTelemetrySpanExt;
         let req = req;
-        let span = if self.filter.map_or(true, |f| f(req.uri().path())) {
+        let span = if self.filter.is_none_or(|f| f(req.uri().path())) {
             let span = http_server::make_span_from_request(&req);
 
             let route = http_route(&req);

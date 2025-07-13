@@ -5,11 +5,11 @@
 //!
 //! It also contains a convenience function to build a layer with the tracer.
 
-use opentelemetry::trace::TraceError;
-use opentelemetry::trace::TraceResult;
 use opentelemetry::InstrumentationScope;
 use opentelemetry::global;
+use opentelemetry::trace::TraceError;
 pub use opentelemetry::trace::TraceId;
+use opentelemetry::trace::TraceResult;
 use opentelemetry::trace::TracerProvider;
 use opentelemetry_datadog::{ApiVersion, DatadogPropagator};
 use opentelemetry_sdk::runtime;
