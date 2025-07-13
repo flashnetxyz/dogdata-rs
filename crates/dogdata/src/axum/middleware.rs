@@ -69,15 +69,6 @@ use tracing_opentelemetry_instrumentation_sdk::http as otel_http;
 
 use crate::axum::http_server;
 
-#[deprecated(
-    since = "0.12.0",
-    note = "keep for transition, replaced by OtelAxumLayer"
-)]
-#[must_use]
-pub fn opentelemetry_tracing_layer() -> OtelAxumLayer {
-    OtelAxumLayer::default()
-}
-
 pub type Filter = fn(&str) -> bool;
 
 /// layer/middleware for axum:

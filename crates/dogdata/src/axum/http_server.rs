@@ -21,7 +21,7 @@
 // SOFTWARE.
 
 //
-//! `OpenTelemetry` http_server helper functions. Copied from [axum-tracing-opentelemetry v0.16](https://github.com/davidB/tracing-opentelemetry-instrumentation-sdk/blob/0.16.0/axum-tracing-opentelemetry/src/middleware/trace_extractor.rs)
+//! `datadog-tracing` http_server helper functions. Copied from [datadog-tracing v0.3.0](https://github.com/will-bank/datadog-tracing/blob/main/src/axum/http_server.rs)
 //!
 use std::error::Error;
 
