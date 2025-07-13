@@ -7,7 +7,6 @@
 
 use opentelemetry::InstrumentationScope;
 pub use opentelemetry::trace::TraceId;
-use opentelemetry::trace::TraceResult;
 use opentelemetry::trace::TracerProvider;
 use opentelemetry_sdk::trace::SdkTracerProvider;
 use opentelemetry_sdk::trace::Tracer;

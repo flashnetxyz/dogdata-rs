@@ -11,7 +11,7 @@ impl TracerShutdown {
 
     pub fn shutdown(&self) -> Result<(), OTelSdkError> {
         if let Some(provider) = &self.provider {
-            provider.shutdown().map_err(OTelSdkError::from)
+            provider.shutdown()
         } else {
             Ok(())
         }
