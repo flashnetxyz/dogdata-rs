@@ -1,6 +1,6 @@
 [package]
 name = "dogdata"
-version = "0.2.1"
+version = "0.2.2"
 authors = ["Nejc Drobnic <nejc@flashnet.xyz>"]
 edition.workspace = true
 description = "A Rust telementy provider for Datadog"

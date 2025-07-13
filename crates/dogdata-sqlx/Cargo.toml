@@ -1,6 +1,6 @@
 [package]
 name = "dogdata-sqlx"
-version = "0.0.3"
+version = "0.0.4"
 authors = ["Nejc Drobnic <nejc@flashnet.xyz>"]
 edition.workspace = true
 description = "SQLx instrumentation for tracing to Datadog APM via OpenTelemetry"
