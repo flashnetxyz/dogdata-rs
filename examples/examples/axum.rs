@@ -20,15 +20,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+use dogdata::axum::{OtelAxumLayer, OtelInResponseLayer};
 use std::net::SocketAddr;
 use std::time::Duration;
-use dogdata::axum::{OtelAxumLayer, OtelInResponseLayer};
 
-use axum::{routing::get, Router};
-use tower_http::timeout::TimeoutLayer;
-use tokio::net::TcpListener;
-use tracing::info;
+use axum::{Router, routing::get};
 use dogdata::axum::shutdown_signal;
+use tokio::net::TcpListener;
+use tower_http::timeout::TimeoutLayer;
+use tracing::info;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
