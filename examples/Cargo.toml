@@ -10,7 +10,7 @@ default = []
 [dev-dependencies]
 # Web framework
 axum = "^0.8.0"
-tower-http = { workspace = true, features = ["timeout"] }
+tower-http = { version = "0.5.1", features = ["timeout"] }
 
 # Dogdata crates
 dogdata = { path = "../crates/dogdata", features = ["axum"] }
