@@ -35,6 +35,11 @@ jobs:
           token: ${{ steps.generate-token.outputs.token }}
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
+      - name: Cache rust files
+        uses: Swatinem/rust-cache@v2
+        with:
+          cache-on-failure: "true"
+          cache-all-crates: "true"
       - name: Run release-plz
         uses: release-plz/action@v0.5
         with:
@@ -70,6 +75,11 @@ jobs:
           fetch-depth: 0
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
+      - name: Cache rust files
+        uses: Swatinem/rust-cache@v2
+        with:
+          cache-on-failure: "true"
+          cache-all-crates: "true"
       - name: Run release-plz
         uses: release-plz/action@v0.5
         with:
