@@ -29,13 +29,13 @@ axum = [
 opentelemetry = { workspace = true }
 opentelemetry_sdk = { workspace = true }
 opentelemetry-semantic-conventions = { workspace = true }
-opentelemetry-datadog = { workspace = true, features = ["reqwest-client"] }
+opentelemetry-datadog = { version = "0.18.0", features = ["reqwest-client"] }
 
 # Tracing
 tracing = { workspace = true }
 tracing-appender = { workspace = true }
 tracing-opentelemetry = { workspace = true }
-tracing-opentelemetry-instrumentation-sdk = { workspace = true, optional = true }
+tracing-opentelemetry-instrumentation-sdk = { version = "0.29", optional = true }
 tracing-serde = { workspace = true }
 tracing-subscriber = { workspace = true }
 
@@ -49,15 +49,14 @@ http = { workspace = true, optional = true }
 tower = { workspace = true, optional = true }
 
 # Async
-futures-util = { workspace = true, optional = true }
-pin-project-lite = { workspace = true, optional = true }
+futures-util = { version = "0.3", optional = true }
+pin-project-lite = { version = "0.2", optional = true }
 ## Runtime
 tokio = { workspace = true, features = ["signal", "macros"], optional = true }
 
 # Serialization
-## JSON
 serde = { workspace = true }
 serde_json = { workspace = true }
 
 # Misc
-chrono = { workspace = true }
+chrono = { version = "0.4.33" }
