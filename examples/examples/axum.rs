@@ -32,7 +32,7 @@ use tracing::info;
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
-    let (_guard, tracer_shutdown) = dogdata::init(None)?;
+    let (_guard, tracer_shutdown) = dogdata::init();
 
     let app = Router::new()
         .route("/", get(root))
@@ -55,7 +55,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .with_graceful_shutdown(shutdown_signal())
         .await?;
 
-    tracer_shutdown.shutdown();
+    tracer_shutdown.shutdown()?;
 
     Ok(())
 }
