@@ -9,10 +9,8 @@ The lib is configurable via environment variables as following:
 
 | env var                | default value                                | description                                               |
 |------------------------|----------------------------------------------|-----------------------------------------------------------|
-| DD_ENABLED             | false                                        | Enables the datadog exporter and trace_id/span_id on logs |
-| DD_SERVICE             | <required>                                   | Datadog service name                                      |
-| DD_AGENT_HOST          | localhost                                    | Datadog agent host                                        |
-| DD_AGENT_PORT          | 8126                                         | Datadog agent port                                        |
+| DD_SERVICE             | unnamed-rust-service                         | Datadog service name                                      |
+| DD_TRACE_AGENT_URL     | http://localhost:8126                        | Datadog agent host                                        |
 | RUST_LOG               | info                                         |                                                           |
 | OTEL_LOG_LEVEL         | debug                                        |                                                           |
 
