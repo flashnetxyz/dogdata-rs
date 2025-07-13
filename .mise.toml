@@ -2,10 +2,8 @@
 committed = "latest"
 pre-commit = "latest"
 just = "latest"
-tilt = "latest"
 
 docker = "latest"
-docker-compose = "latest"
 
 curlie = "latest"
 
