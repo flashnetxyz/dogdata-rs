@@ -29,6 +29,8 @@ axum = [
 opentelemetry = { workspace = true }
 opentelemetry_sdk = { workspace = true }
 opentelemetry-semantic-conventions = { workspace = true }
+opentelemetry-stdout = { version = "^0.28.0", features = ["trace", "logs"] }
+opentelemetry-appender-tracing = { version = "^0.28.0" }
 
 # Datadog
 datadog-opentelemetry = { workspace = true }
