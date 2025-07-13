@@ -13,6 +13,16 @@ categories = ["development-tools::debugging"]
 
 [features]
 default = []
+axum = [
+    "dep:axum", 
+    "dep:http", 
+    "dep:tower", 
+    "dep:pin-project-lite", 
+    "dep:tokio", 
+    "dep:futures-util", 
+    "dep:tracing-opentelemetry-instrumentation-sdk", 
+    "dep:axum-tracing-opentelemetry"
+]
 
 [dependencies]
 # OpenTelemetry
@@ -39,3 +49,13 @@ serde_json = { workspace = true }
 
 # Misc
 chrono = "^0.4.33"
+
+# Axum feature dependencies
+axum = { version = "0.7", optional = true }
+http = { version = "1.0", optional = true }
+tower = { version = "0.4", optional = true }
+pin-project-lite = { version = "0.2", optional = true }
+tokio = { version = "1.0", features = ["signal", "macros"], optional = true }
+futures-util = { version = "0.3", optional = true }
+tracing-opentelemetry-instrumentation-sdk = { version = "0.29", optional = true }
+axum-tracing-opentelemetry = { version = "0.29", optional = true }

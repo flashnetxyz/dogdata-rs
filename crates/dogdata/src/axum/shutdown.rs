@@ -20,16 +20,26 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-//! Utilities to integrate Rust services with Datadog using [`opentelemetry`],
-//! [`tracing`], and other open source libraries.
+use tokio::signal;
 
-pub mod formatter;
-pub mod init;
-pub mod model;
-pub mod shutdown;
-pub mod tracer;
+pub async fn shutdown_signal() {
+    let ctrl_c = async {
+        signal::ctrl_c()
+            .await
+            .expect("failed to install Ctrl+C handler");
+    };
 
-#[cfg(feature = "axum")]
-pub mod axum;
+    let terminate = async {
+        signal::unix::signal(signal::unix::SignalKind::terminate())
+            .expect("failed to install signal handler")
+            .recv()
+            .await;
+    };
 
-pub use init::init;
+    tokio::select! {
+        _ = ctrl_c => {},
+        _ = terminate => {},
+    }
+
+    println!("signal received, starting graceful shutdown");
+}
