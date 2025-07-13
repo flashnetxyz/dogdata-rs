@@ -48,14 +48,15 @@ reqwest-middleware = { version = ">0.3.0, <0.5.0" }
 ## Server
 axum = { version = "0.8" }
 axum-tracing-opentelemetry = { version = "0.29" }
-tower = { version = "0.4" }
+tower = { version = "0.5" }
+tower-http = { version = "0.5.1" }
 
 # Async
 async-trait = { version = "0.1.51" }
 futures = { version = "0.3.31" }
 futures-util = { version = "0.3" }
 pin-project-lite = { version = "0.2" }
-tokio = { version = "1.0" }
+tokio = { version = "1.46.1" }
 
 # Serialization
 ## JSON

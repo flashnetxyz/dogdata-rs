@@ -10,7 +10,7 @@ default = []
 [dev-dependencies]
 # Web framework
 axum = "^0.8.0"
-tower-http = { version = "0.5.1", features = ["timeout"] }
+tower-http = { workspace = true, features = ["timeout"] }
 
 # Dogdata crates
 dogdata = { path = "../crates/dogdata", features = ["axum"] }
@@ -21,7 +21,7 @@ reqwest = { version = "0.12.22", features = ["json"] }
 reqwest-middleware = { version = "0.4.2" }
 
 # Async runtime
-tokio = { version = "1.46.1", features = ["full"] }
+tokio = { workspace = true, features = ["full"] }
 
 # Serialization
 serde = { version = "1", features = ["derive"] }

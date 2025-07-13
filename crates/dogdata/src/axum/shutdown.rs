@@ -37,7 +37,15 @@ pub async fn shutdown_signal() {
             .await;
     };
 
-    #[cfg(not(unix))]
+    #[cfg(windows)]
+    let terminate = async {
+        signal::windows::ctrl_close()
+            .expect("failed to install signal handler")
+            .recv()
+            .await;
+    };
+
+    #[cfg(not(any(unix, windows)))]
     let terminate = std::future::pending::<()>();
 
     tokio::select! {
